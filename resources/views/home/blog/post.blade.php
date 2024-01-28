@@ -48,7 +48,7 @@
                                 <a href="#" class="fa fa-pinterest"></a>
                             </div>
                             <div id="comments" class="comments-area">
-                                
+
                             </div>
 
                             <h3 class="comments-form-title">Add Comment</h3>
@@ -56,18 +56,22 @@
                                 <div class="comments-form anchor">
                                     @if (auth('cus')->check())
                                         <p class="comments-form-title">He Sờ Lô : {{ auth('cus')->user()->name }}</p>
-                                        <form method="POST" id="commentform" class="comment-form form" novalidate="">
+                                        <form id="commentform" class="comment-form form">
                                             @csrf
                                             <label for="" class="required">Your Message</label>
-                                            <input type="hidden" value="{{ $post->post_id }}" name="post_id">
+                                            <input type="hidden" value="{{ $post->post_id }}" name="post_id"
+                                                id="post_id">
                                             <textarea id="comment-content" name="content" placeholder="Comment" aria-required="true"></textarea>
-                                           <small id="comment-error" class="help-blog"></small>
+                                            <small id="comment-error" class="help-blog"></small>
 
-                                            <button type="button" id="btn-comment"class="submit aligncenter btn btn-brown">Post Comment</button>
-                                            @else
-                                            <button type="button" class="btn-login btn btn-danger"  data-toggle="modal" data-target="#modelId">Please login to post a comment.</button> 
+                                            <button type="button"
+                                                id="btn-comment"class="submit aligncenter btn btn-brown">Post
+                                                Comment</button>
+                                        @else
+                                            <button type="button" class="btn-login btn btn-danger" data-toggle="modal"
+                                                data-target="#modelId">Please login to post a comment.</button>
                                             </p>
-                                       
+
                                         </form>
                                     @endif
                                 </div>
@@ -268,12 +272,13 @@
                                 @enderror
                             </div>
                             <div class="col-md-12">
-                                <input id="password" class="contact-input" type="text"
-                                    placeholder="Your password *" required>
+                                <input id="password" class="contact-input" type="text" placeholder="Your password *"
+                                    required>
                             </div>
 
                             <div class="col-md-12 text-center">
-                                <button id="btn-login" class="btn btn-primary btn-block" style="width:100%">Login</button>
+                                <button id="btn-login" class="btn btn-primary btn-block"
+                                    style="width:100%">Login</button>
                             </div>
                         </div>
                     </form>
@@ -282,71 +287,87 @@
         </div>
     </div>
 
+    <input type="text" id="token" value="{{ csrf_token() }}" hidden>
     <!-- SUBSCRIBE FORM END -->
     @push('scripts')
+        <script>
+            var _csrf = $('#token').val();
+            $('#btn-login').click(function(ev) {
+                ev.preventDefault();
 
-    <script>
-           var _csrf = '{{ csrf_token() }}';
-        $('#btn-login').click(function(ev) {
-           ev.preventDefault();
-        
-           var email = $('#email').val();
-           var password = $('#password').val();
-           var _loginUrl = '{{ route("ajax.login") }}';
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var _loginUrl = '{{ route('ajax.login') }}';
 
-     
-           $.ajax({
-              url: _loginUrl,
-              type: 'POST',
-              data: {
-                 email: email,
-                 password: password,
-                 _token: _csrf
-              },
-             
-              success: function(res) {
-                 if(res.error){
-                    let _html_error = 
-                    '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>';
-                    for(let error of res.error){
-                        _html_error += "<li>${#error}</li>"
-                    } 
-                    _html_error +='</div>';
-                    $('#error').html(_html_error);
-                }else{
-                    alert('đăng nhập thành công');
-                    location.reload();
-                }
 
-              }
-           });
-  
-        });
+                $.ajax({
+                    url: _loginUrl,
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        password: password,
+                        _token: _csrf
+                    },
 
-        $('#btn-comment').click(function(ev){
-            ev.preventDefault();
-            let content = $('#comment-content').val();
-            var _commentUrl = '{{ route("ajax.comment",$post->post_id) }}';
-            console.log(_commentUrl);
-            $.ajax({
-              url: _commentUrl,
-              type: 'POST',
-              data: {
-                 content:content,
-                 _token: _csrf
-              },
-             
-              success: function(res) {
-                 if(res.error){
-                    $('#comment-error').html(res.error);
-                }else{
-                    $('#comment-error').html('');
-                }
+                    success: function(res) {
+                        if (res.error) {
+                            let _html_error =
+                                '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>';
+                            for (let error of res.error) {
+                                _html_error += "<li>${#error}</li>"
+                            }
+                            _html_error += '</div>';
+                            $('#error').html(_html_error);
+                        } else {
+                            alert('đăng nhập thành công');
+                            location.reload();
+                        }
 
-              }
-           });
-        });
-     </script>
-     
+                    }
+                });
+
+            });
+            console.log(11111111111);
+
+            // $('#btn-comment').click(function(ev) {
+            //     console.log(11111111111);
+            //     ev.preventDefault();
+            //     let content = $('#comment-content').val();
+            //     let post_id = $('#post_id').val();
+                // var _commentUrl = `${route('ajax.comment', ['post_id' => $post->post_id])}`;
+            //     console.log(_commentUrl);
+
+            // });
+
+            $('#btn-comment').click(function(ev) {
+                ev.preventDefault();
+
+                let content = $('#comment-content').val();
+                let post_id = $('#post_id').val();
+                var _commentUrl = '{{route('ajax.comment', ['post_id' => $post->post_id])}}';
+
+                $.ajax({
+                    url: _commentUrl,
+                    type: 'POST',
+                    data: {
+                        content: content,
+                        post_id: post_id,
+                        _token: _csrf
+                    },
+
+                    success: function(res) {
+                        if (res.error) {
+                            $('#comment-error').html(res.error);
+                        } else {
+                            $('#comment-error').html('');
+                        }
+
+                    }
+                });
+
+                console.log('finish');
+            });
+        </script>
+    
     @endpush
 @stop()

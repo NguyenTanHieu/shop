@@ -39,11 +39,11 @@ class AjaxLoginController extends Controller
         ], [
             'content.required' => 'Nội dung không để trống ',
         ]);
-         $data=[
-            'customer_id' => $customer_id,
-            'post_id' => $post_id,
+        $data = [
+            'customer_id' => auth('cus')->id(),
+            'blog_id' => $req->post_id,
             'content' => $req->content,
-         ];
+        ];
          if($comment = Comment::create($data)){ 
              $comments = Comment::where(['post_id'=>$post_id,'replay_id'=> 0]);
             return view('home.blog.lisst-comment',compact('comments'));
