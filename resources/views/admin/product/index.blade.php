@@ -1,14 +1,16 @@
 @extends('master.admin')
 @section('title', 'Product manager')
 @section('main')
-    <form action="" method="post" class="form-inline" role="form">
+    <form action="" method="post" id="searchForm" class="form-inline" role="form">
+        @csrf <!-- Thêm token CSRF vào form -->
         <div class="form-group">
             <label for="" class="sr-only">label</label>
-            <input type="email" class="form-control" id="" placeholder="input field">
+            <input type="text" class="form-control" id="searchInput" placeholder="input field">
         </div>
         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
         <a href="{{ route('product.create') }}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add new</a>
     </form>
+
 
     <br>
 
@@ -57,5 +59,31 @@
             @endforeach
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $('#searchForm').submit(function(e) {
+            e.preventDefault();
+            var keyword = $('#searchInput').val();
 
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('product.searchproducts') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    keyword: keyword
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        $('.table tbody').html(data.html);
+                    }else {
+                        alert("Loi56")
+                    }
+                },
+                error: function(error) {
+                    console.error(
+                    'Error occurred while searching products. Check console for details.');
+                }
+            });
+        });
+    </script>
 @stop()

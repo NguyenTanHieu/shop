@@ -25,13 +25,21 @@ use App\Http\Controllers\CommentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about-us', [HomeController::class, 'about'])->name('home.about');
-Route::get('/category/{cat}', [HomeController::class, 'category'])->name('home.category');
-Route::get('/product/{product}', [HomeController::class, 'product'])->name('home.product');
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+Route::get('/category/{cat}-{slug}', [HomeController::class, 'category'])->name('home.category');
+Route::post('/category/{cat}-{slug}', [HomeController::class, 'sortProducts'])->name('home.sortProducts');
+Route::get('/product/{product}-{slug}', [HomeController::class, 'product'])->name('home.product');
 Route::get('/favorite/{product}', [HomeController::class, 'favorite'])->name('home.favorite');
 Route::get('/tag/{tag}', [HomeController::class, 'tag'])->name('home.tag');
 Route::get('/category_post/{catp}', [HomeController::class, 'category_post'])->name('home.category_post');
 Route::get('/post/{post}', [HomeController::class, 'post'])->name('home.post');
+// Route::get('/sort-products', [HomeController::class, 'sortProducts'])->name('home.sortProducts');
+// Route::post('/sort-products', [HomeController::class, 'sortProducts'])->name('home.sortProducts');
 
+
+
+
+Route::get('/ajax-search-product',[HomeController::class,'ajaxSearch'])->name('ajax-search-product');
 
 Route::group(['prefix'=> 'account'],function(){
     Route::get('/login', [AccountController::class, 'login'])->name('account.login');
@@ -84,6 +92,8 @@ Route::post('/admin/login', [AdminController::class, 'check_login']);
 Route::group(['prefix'=>'admin','middleware'=>'auth'], function(){ 
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::get('/searchproducts', [ProductController::class, 'searchproducts'])->name('product.searchproducts');
+    Route::post('/searchproducts', [ProductController::class, 'searchproducts'])->name('product.searchproducts');
     // Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     // Route::get('/order/detail/{order}', [OrderController::class, 'show'])->name('order.show');
     // Route::get('/order/update-status/{order}', [OrderController::class, 'update'])->name('order.update');

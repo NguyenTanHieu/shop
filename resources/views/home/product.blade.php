@@ -1,4 +1,5 @@
 @extends('master.main')
+@section('title', $product->name)
 @section('main')
 
     <!-- PAGE HEAD -->
@@ -45,9 +46,7 @@
                     </div>
                     <div class="product-info">
                         <div class="item">Category: 
-                            @foreach ( $cats_home as $cath)
-                            <a href="{{ route('home.category',$cath->id) }}">{{ $cath->name }}</a>
-                            @endforeach
+                            <a href="{{ route('home.category',['cat'=> $product->category_id,'slug'=> $product->cat->slug]) }}">{{ $product->cat->name }}</a>
                         </div>
                         <div class="item">Product ID: <strong>{{ $product->id }}</strong></div>
                         <div class="item">Tags: 
@@ -76,50 +75,25 @@
                 <div class="col-md-12">
                     <h2 class="related-title">Related Products</h2>
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="product-item">
-                                <div class="img-wrap"><a href="#"><img src="images/prod-img.jpg" alt=""></a>
-                                </div>
-                                <a href="#" class="name">100% Arabica</a>
-                                <div class="text">Professional espresso serie</div>
-                                <div class="price">$19</div>
-                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                        aria-hidden="true"></i>add to cart</a>
+                       @foreach ($products as $pro)
+                       <div class="col-md-3">
+                        <div class="product-item">
+                            <div class="img-wrap"><a href="#"><img  src="uploads/product/{{ $pro->image }}" alt="" style="width:200px"></a>
                             </div>
+                            <a href="#" class="name">{{ $pro->name }}</a>
+                            <div class="text">{{ $pro->description }}</div>
+                            <div class="price">
+                                @if(!isset($pro->sale_price))
+                                <p>{{ number_format($pro->price) }}</p>
+                                @else
+                                <s>{{ number_format($pro->price) }}</s>- <p>{{ number_format($pro->sale_price) }}</p>
+                                @endif
+                              </div>
+                            <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
+                                    aria-hidden="true"></i>add to cart</a>
                         </div>
-                        <div class="col-md-3">
-                            <div class="product-item">
-                                <div class="img-wrap"><a href="#"><img src="images/prod-img1.jpg" alt=""></a>
-                                </div>
-                                <a href="#" class="name">Espresso Premium</a>
-                                <div class="text">Professional espresso serie</div>
-                                <div class="price">$46</div>
-                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                        aria-hidden="true"></i>add to cart</a>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="product-item">
-                                <div class="img-wrap"><a href="#"><img src="images/prod-img.jpg" alt=""></a>
-                                </div>
-                                <a href="#" class="name">100% Arabica</a>
-                                <div class="text">Professional espresso serie</div>
-                                <div class="price">$19</div>
-                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                        aria-hidden="true"></i>add to cart</a>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="product-item">
-                                <div class="img-wrap"><a href="#"><img src="images/prod-img1.jpg" alt=""></a>
-                                </div>
-                                <a href="#" class="name">Espresso Premium</a>
-                                <div class="text">Professional espresso serie</div>
-                                <div class="price">$46</div>
-                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                        aria-hidden="true"></i>add to cart</a>
-                            </div>
-                        </div>
+                    </div>
+                       @endforeach
                     </div>
                 </div>
             </div>

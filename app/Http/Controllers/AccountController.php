@@ -20,10 +20,10 @@ class AccountController extends Controller
         return view('account.login');
     }
 
-//     public function favorite(){
-//        $favorites = auth('cus')->user()->favorites ? auth('cus')->user()->favorites : [];
-//         return view('account.favorite',compact('favorites'));
-//     }
+    public function favorite(){
+       $favorites = auth('cus')->user()->favorites ? auth('cus')->user()->favorites : [];
+        return view('account.favorite',compact('favorites'));
+    }
 
     public function logout(){
         auth('cus')->logout();

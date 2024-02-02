@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -51,6 +52,7 @@ class CategoryController extends Controller
         ]);
 
         $data = $request->only('name', 'status');
+        $data['slug'] = Str::slug($request->name);
 
         if (Category::create($data)) {
             return redirect()->route('category.index')->with('ok', 'Create new Category successfully');

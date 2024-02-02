@@ -117,14 +117,15 @@ textarea { padding: 10px 22px 10px 22px; background: #f5f2eb; border:1px solid #
 .top-nav .top-social li { padding: 22px 25px 24px 0; display: inline-block; }
 .top-nav .top-social li a { font-size: 14px; }
 .top-nav .top-social li a:hover { color: #e2ded0;}
-.top-nav .top-right { padding-top: 20px; position: relative; text-align: right; }
+.top-nav .top-right { padding-top: 10px; position: relative; text-align: right;display: flex;align-items: center; }
 .top-nav .cart { margin-right: 36px; position: relative; font-size: 18px; }
 .top-nav .cart .count { position: absolute; top: -9px; right: -12px; width: 20px; height: 20px; line-height: 20px; text-align: center; background: #d8cfb5; border-radius: 50%; font-size: 14px; font-weight: 800; color: #2b1b13; }
 .top-nav .cart:hover { color: #e2ded0;}
 .top-nav .cart:focus { color: #e2ded0;}
 .top-nav .cart .name { display: none; }
 .top-nav .top-search { position: relative; display: inline-block; }
-.top-nav .top-search input[type='text'] { padding-left: 10px; height: 40px; position: absolute; right: -100%; opacity: 0; visibility: hidden; top: -9px; transition: all 400ms; }
+.top-nav .top-search input[type='text'] { padding-left: 10px; height: 40px;  right: -100%; top:0; transition: all 400ms; position: relative;right: 0;}
+.top-nav .top-search a::before{position:relative;z-index: 10;}
 .top-nav .show-field input[type='text'] { opacity: 1; right: -60%; visibility: visible; }
 .top-nav .search { position: relative; font-size: 18px; }
 .top-nav .search:hover { color: #e2ded0;}

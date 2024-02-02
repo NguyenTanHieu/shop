@@ -47,8 +47,9 @@
                                 <a href="#" class="fa fa-google-plus"></a>
                                 <a href="#" class="fa fa-pinterest"></a>
                             </div>
-                            <div id="comments" class="comments-area">
-
+                            <div id="comment" class="comments-area">
+        
+                                    @include('home.blog.lisst-comment',['comments'=>isset($comments) ? $comments : []])
                             </div>
 
                             <h3 class="comments-form-title">Add Comment</h3>
@@ -291,6 +292,7 @@
     <!-- SUBSCRIBE FORM END -->
     @push('scripts')
         <script>
+              var _commentUrl = '{{ route('ajax.comment', ['post_id' => $post->post_id]) }}';
             var _csrf = $('#token').val();
             $('#btn-login').click(function(ev) {
                 ev.preventDefault();
@@ -327,46 +329,83 @@
                 });
 
             });
-            console.log(11111111111);
-
-            // $('#btn-comment').click(function(ev) {
-            //     console.log(11111111111);
-            //     ev.preventDefault();
-            //     let content = $('#comment-content').val();
-            //     let post_id = $('#post_id').val();
-                // var _commentUrl = `${route('ajax.comment', ['post_id' => $post->post_id])}`;
-            //     console.log(_commentUrl);
-
-            // });
-
-            $('#btn-comment').click(function(ev) {
-                ev.preventDefault();
-
+            $('#btn-comment').on('click', function() {
                 let content = $('#comment-content').val();
-                let post_id = $('#post_id').val();
-                var _commentUrl = '{{route('ajax.comment', ['post_id' => $post->post_id])}}';
-
                 $.ajax({
                     url: _commentUrl,
                     type: 'POST',
                     data: {
                         content: content,
-                        post_id: post_id,
+                        _token: _csrf
+                    },
+                    success: function(res) {
+                        if (res.status === 200) {
+                            // $('#comment-error').html(res.error);
+                            $('#comment').html(res.html);
+                            // $('#comment').append(`<div>${res.comment.content}</div>`);
+                            $('#comment-content').val('');
+                            console.log(res.html);
+                        } else {
+                            $('#comment-error').html('');
+                            $('#comment-content').val();
+                            $('#comment').html(res);
+                            // console.log(res);
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        // alert(xhr.status);
+                        // alert(thrownError);
+                    }
+                });
+            });
+            $(document).on('click','.comment-reply-link',function(ev) {
+               ev.preventDefault();
+               var id=$(this).data('id');
+               var common_reply_id='#content-reply-'+id;
+               var form_relay='.form-relay-'+id;
+               var contentReply=$(common_reply_id).val();
+               $('.formReply').sliderUp();
+               $(form_relay).sliderDown();
+            });
+
+            $(document).on('click','.btn-send-comment-reply',function(ev) {
+               ev.preventDefault();
+               var id=$(this).data('id');
+               var common_reply_id='#content-reply-'+id;
+               var contentReply=$(common_reply_id).val();
+               var form_replay='.form-reply-'+id;
+                // alert(id)
+               $.ajax({
+                    url: _commentUrl,
+                    type: 'POST',
+                    data: {
+                        content: contentReply,
+                        reply_id: id,
+                        // post_id: post_id,
                         _token: _csrf
                     },
 
                     success: function(res) {
-                        if (res.error) {
-                            $('#comment-error').html(res.error);
+                        if (res.status === 200) {
+                            // $('#comment-error').html(res.error);
+                            $('#comment').html(res.html);
+                            // $('#comment').append(`<div>${res.comment.content}</div>`);
+                            $('#comment-content').val('');
+                            console.log(res.html);
                         } else {
                             $('#comment-error').html('');
+                            $('#comment-content').val();
+                            $('#comment').html(res);
+                            // console.log(res);
                         }
 
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        // alert(xhr.status);
+                        // alert(thrownError);
                     }
-                });
-
-                console.log('finish');
-            });
+            })
+        });
         </script>
     
     @endpush

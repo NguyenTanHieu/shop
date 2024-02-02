@@ -150,9 +150,27 @@
                             <div class="item">
                                 <div class="img-wrap"><a href="#"><img style="width:200px" src="uploads/product/{{ $pr->image }}"
                                             alt=""></a></div>
-                                <a href="#" class="name">{{ $pr->name }}</a>
+                                <a href="{{ route('home.product',['product'=>$pr->id,'slug'=>$pr->slug] )}}" class="name">{{ $pr->name }}</a>
                                 <div class="text">{{ $pr->description }}</div>
-                                <div class="price">{{ number_format($pr->price) }}đ</div>
+                                <div class="price" >
+                                    @if(!isset($pr->sale_price))
+                                 <p>{{ number_format($pr->price) }}đ</p>
+                                    @else
+                                    <s>{{ number_format($pr->price) }}đ</s> - <p>{{ number_format($pr->sale_price) }}đ</p>
+                                    @endif
+                    
+                                   @if (auth('cus')->check())
+                                   <div class="favorite-action">
+                                    @if ($pr->favorited)
+                                        <a title="Bỏ thích"
+                                            onclick="return confirm('bạn có muốn bỏ yêu thích không?')"
+                                            href="{{ route('home.favorite', $pr->id) }}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                    @else
+                                        <a title="Yêu thích" href="{{ route('home.favorite', $pr->id) }}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                    @endif
+                                </div>
+                                   @endif
+                                 </div>
                                 <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
                                         aria-hidden="true"></i>add to cart</a>
                             </div>
@@ -662,86 +680,28 @@
                 <div class="col-md-12">
                     <h2>Read our news</h2>
                 </div>
-                <div class="col-md-3">
-                    <div class="main-blog-item">
-                        <div class="img-wrap"><a href="#"><img class="img-responsive" src="assets/images/0.jpg"
-                                    alt=""></a></div>
-                        <div class="info">
-                            <a href="#" class="name">Where our coffee is grown</a>
-                            <p class="text">Sed sagittis sodales lobortis. Curabitur in eleifend turpis, id vehicula
-                                odio. Donec pulvinar tellus eget magna aliquet ultricies. </p>
+                
+               @foreach ($posts as $post)
+               <div class="col-md-3">
+                <div class="main-blog-item">
+                    <div class="img-wrap"><a href="#"><img class="img-responsive" src="uploads/post/{{ $post->image }}"
+                                alt=""></a></div>
+                    <div class="info">
+                        <a href="#" class="name">{{ $post->name }}</a>
+                        <p class="text">{{ $post->description }} </p>
+                    </div>
+                    <div class="item-info">
+                        <div class="left">
+                            <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
                         </div>
-                        <div class="item-info">
-                            <div class="left">
-                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
-                            </div>
-                            <div class="right">
-                                <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
-                            </div>
+                        <div class="right">
+                            <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
+                            <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="main-blog-item">
-                        <div class="img-wrap"><a href="#"><img class="img-responsive" src="assets/images/1.jpg"
-                                    alt=""></a></div>
-                        <div class="info">
-                            <a href="#" class="name">What sort of coffee to choose for every day?</a>
-                            <p class="text">Curabitur in eleifend turpis, id vehicula odio. Donec pulvinar tellus eget
-                                magna aliquet ultricies. </p>
-                        </div>
-                        <div class="item-info">
-                            <div class="left">
-                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>March 18, 2017</div>
-                            </div>
-                            <div class="right">
-                                <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="main-blog-item">
-                        <div class="img-wrap"><a href="#"><img class="img-responsive" src="assets/images/2.jpg"
-                                    alt=""></a></div>
-                        <div class="info">
-                            <a href="#" class="name">Where our coffee is grown</a>
-                            <p class="text">Sed sagittis sodales lobortis. Curabitur in eleifend turpis, id vehicula
-                                odio. Donec pulvinar tellus eget magna aliquet ultricies. </p>
-                        </div>
-                        <div class="item-info">
-                            <div class="left">
-                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
-                            </div>
-                            <div class="right">
-                                <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="main-blog-item">
-                        <div class="img-wrap"><a href="#"><img class="img-responsive" src="assets/images/3.jpg"
-                                    alt=""></a></div>
-                        <div class="info">
-                            <a href="#" class="name">What sort of coffee to choose for every day?</a>
-                            <p class="text">Curabitur in eleifend turpis, id vehicula odio. Donec pulvinar tellus eget
-                                magna aliquet ultricies. </p>
-                        </div>
-                        <div class="item-info">
-                            <div class="left">
-                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
-                            </div>
-                            <div class="right">
-                                <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+               @endforeach
                 <div class="col-md-12 text-center"><a href="#" class="btn btn-default all-blog">all news</a></div>
             </div>
         </div>

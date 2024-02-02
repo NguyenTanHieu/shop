@@ -30,11 +30,12 @@ class AjaxLoginController extends Controller
         return response()->json(['error'=>['You account or password invalid']]);
     }
 
-    public function comment($post_id,Request $req){
-    
-        $customer_id= auth('cus')->user()->id;
+    public function comment(Request $req, $post_id)
+    {
+        $customer_id = auth('cus')->user()->id;
         $req->validate([
            
+
             'content' => 'required',
         ], [
             'content.required' => 'Nội dung không để trống ',
@@ -43,13 +44,21 @@ class AjaxLoginController extends Controller
             'customer_id' => auth('cus')->id(),
             'blog_id' => $req->post_id,
             'content' => $req->content,
+            'reply_id' => isset($req->reply_id) ? $req->reply_id : null,
         ];
-         if($comment = Comment::create($data)){ 
-             $comments = Comment::where(['post_id'=>$post_id,'replay_id'=> 0]);
-            return view('home.blog.lisst-comment',compact('comments'));
-          
-         }
-     
-        return response()->json(['error'=>[0]]);
+        if ($req->ajax()) {
+            $comment = Comment::create($data);
+            $comments = Comment::where(['blog_id' => $post_id, 'reply_id' => null])->get();
+            $html = view('home.blog.lisst-comment', compact('comments'))->render();
+            return response()->json([
+                'status' => 200,
+                'comment' => $comment,
+                'html' => $html,
+            ]);
+        }else{
+            $comments = Comment::where(['blog_id' => $post_id, 'reply_id' => null])->get();
+       
+            return view('home.blog.lisst-comment', compact('comments'));
+        }
     }
 }

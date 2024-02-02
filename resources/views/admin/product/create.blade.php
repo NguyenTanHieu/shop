@@ -54,13 +54,13 @@
             <label for="" >product Status</label>
            <div class="radio">
             <label for="">
-                <input type="radio" name="Status"  value="1" />
+                <input type="radio" name="status"  value="1" />
                 Publish
             </label>
            </div>
            <div class="radio">
             <label for="">
-                <input type="radio" name="Status"  value="0" />
+                <input type="radio" name="status"  value="0" />
                 Hidden
             </label>
            </div>

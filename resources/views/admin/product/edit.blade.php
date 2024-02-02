@@ -65,13 +65,13 @@
             <label for="" >product Status</label>
            <div class="radio">
             <label for="">
-                <input type="radio" name="Status"  value="1" {{ $cat->status == 1 ? 'checked' : '' }} />
+                <input type="radio" name="status"  value="1" {{ $cat->status == 1 ? 'checked' : '' }} />
                 Publish
             </label>
            </div>
            <div class="radio">
             <label for="">
-                <input type="radio" name="Status"  value="0" {{ $cat->status == 0 ? 'checked' : '' }} />
+                <input type="radio" name="status"  value="0" {{ $cat->status == 0 ? 'checked' : '' }} />
                 Hidden
             </label>
            </div>
