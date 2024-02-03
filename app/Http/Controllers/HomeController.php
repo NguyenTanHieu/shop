@@ -98,10 +98,10 @@ class HomeController extends Controller
     public function sortProducts(Request $request)
     {
 
-
+        $request_data = $request->all();
         try {
-            $products = Product::where('category_id', $request->category_id)
-                ->orderBy("price", $request->sort)->paginate(4);
+            $products = Product::where('category_id', $request_data['category_id'])
+                ->orderBy("price", $request_data['sort'])->paginate(4);
 
             return response()->json([
                 'status' => 200,
