@@ -45,59 +45,66 @@
                             to cart</a>
                     </div>
                     <div class="product-info">
-                        <div class="item">Category: 
-                            <a href="{{ route('home.category',['cat'=> $product->category_id,'slug'=> $product->cat->slug]) }}">{{ $product->cat->name }}</a>
+                        <div class="item">Category:
+                            <a
+                                href="{{ route('home.category', ['cat' => $product->category_id, 'slug' => $product->cat->slug]) }}">{{ $product->cat->name }}</a>
                         </div>
                         <div class="item">Product ID: <strong>{{ $product->id }}</strong></div>
-                        <div class="item">Tags: 
-                            @foreach ($tags as $tag )
-                            <a href="{{ route('home.tag',$tag->id) }}">{{ $tag->name }}</a> </div> 
-                            @endforeach
-                           
+                        <div class="item">Tags:
+                            @foreach ($tags as $tag)
+                                <a href="{{ route('home.tag', $tag->id) }}">{{ $tag->name }}</a>
+                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
-                <div class="col-md-12">
-                    <div class="woocommerce-tabs wc-tabs-wrapper">
-                        <ul class="tabs wc-tabs">
-                            <li class="description_tab active">
-                                <a href="#tab-description">Description</a>
-                            </li>
-                            <li class="reviews_tab">
-                                <a href="#tab-reviews">Reviews</a>
-                            </li>
-                        </ul>
-                        <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab"
-                            id="tab-description">
-                            <p>{{ $product->description }}</p>
-                        </div>
+            <div class="col-md-12">
+                <div class="woocommerce-tabs wc-tabs-wrapper">
+                    <ul class="tabs wc-tabs">
+                        <li class="description_tab active">
+                            <a href="#tab-description">Description</a>
+                        </li>
+                        <li class="reviews_tab">
+                            <a href="#tab-reviews">Reviews</a>
+                        </li>
+                    </ul>
+                    <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab"
+                        id="tab-description">
+                        <p>{{ $product->description }}</p>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <h2 class="related-title">Related Products</h2>
-                    <div class="row">
-                       @foreach ($products as $pro)
-                       <div class="col-md-3">
-                        <div class="product-item">
-                            <div class="img-wrap"><a href="#"><img style="width:200px;height:200px" src="uploads/product/{{ $pro->image }}" alt="" style="width:200px"></a>
+            </div>
+            <div class="col-md-12">
+                <h2 class="related-title">Related Products</h2>
+                <div class="row">
+                    @foreach ($products as $pro)
+
+                    
+                        <div class="col-md-3">
+                            <div class="product-item">
+                                <div class="img-wrap"><a href="#"><img style="width:200px;height:200px"
+                                            src="uploads/product/{{ $pro->image }}" alt=""
+                                            style="width:200px"></a>
+                                </div>
+                                <a href="#" class="name">{{ $pro->name }}</a>
+                                <div class="text">{{ $pro->description }}</div>
+                                <div class="price">
+                                    @if (!isset($pro->sale_price))
+                                        <p>{{ number_format($pro->price) }}</p>
+                                    @else
+                                        <del>{{ number_format($pro->price) }}</del>- <ins
+                                            style="text-decoration:inherit">{{ number_format($pro->sale_price) }}</ins>
+                                    @endif
+                                </div>
+                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
+                                        aria-hidden="true"></i>add to cart</a>
                             </div>
-                            <a href="#" class="name">{{ $pro->name }}</a>
-                            <div class="text">{{ $pro->description }}</div>
-                            <div class="price">
-                                @if(!isset($pro->sale_price))
-                                <p>{{ number_format($pro->price) }}</p>
-                                @else
-                                <del>{{ number_format($pro->price) }}</del>- <ins style="text-decoration:inherit">{{ number_format($pro->sale_price) }}</ins>
-                                @endif
-                              </div>
-                            <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                    aria-hidden="true"></i>add to cart</a>
                         </div>
-                    </div>
-                       @endforeach
-                    </div>
+                    @endforeach
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <!-- PRODUCT END -->
