@@ -10,7 +10,11 @@ use App\Http\Controllers\Admin\TagProductController;
 use App\Http\Controllers\Admin\CategoryPostController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\AjaxLoginController;
+use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\TagPostController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,20 +75,20 @@ Route::group(['prefix'=> 'account'],function(){
 });
 
 
-// Route::group(['prefix'=>'cart','middleware'=>'customer'], function(){
-//     Route::get('/', [CartController::class, 'index'])->name('cart.index');
-//     Route::get('/add/{product}', [CartController::class, 'add'])->name('cart.add');
-//     Route::get('/delete/{product}', [CartController::class, 'delete'])->name('cart.delete');
-//     Route::get('/update/{product}', [CartController::class, 'update'])->name('cart.update');
-//     Route::get('/clear', [CartController::class, 'clear'])->name('cart.clear');
-// });
-// Route::group(['prefix'=>'order','middleware'=>'customer'], function(){
-//     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('order.checkout');
-//     Route::get('/history', [CheckoutController::class, 'history'])->name('order.history');
-//     Route::get('/detail/{order}', [CheckoutController::class, 'detail'])->name('order.detail');
-//     Route::post('/checkout', [CheckoutController::class, 'post_checkout']);
-//     Route::get('/verify/{token}', [CheckoutController::class, 'verify'])->name('order.verify');;
-// });
+Route::group(['prefix'=>'cart','middleware'=>'customer'], function(){
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/delete/{product}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::get('/update/{product}', [CartController::class, 'update'])->name('cart.update');
+    Route::get('/clear', [CartController::class, 'clear'])->name('cart.clear');
+});
+Route::group(['prefix'=>'order','middleware'=>'customer'], function(){
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('order.checkout');
+    Route::get('/history', [CheckoutController::class, 'history'])->name('order.history');
+    Route::get('/detail/{order}', [CheckoutController::class, 'detail'])->name('order.detail');
+    Route::post('/checkout', [CheckoutController::class, 'post_checkout']);
+    Route::get('/verify/{token}', [CheckoutController::class, 'verify'])->name('order.verify');;
+});
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'check_login']);
@@ -94,14 +98,15 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'], function(){
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::get('/searchproducts', [ProductController::class, 'searchproducts'])->name('product.searchproducts');
     Route::post('/searchproducts', [ProductController::class, 'searchproducts'])->name('product.searchproducts');
-    // Route::get('/order', [OrderController::class, 'index'])->name('order.index');
-    // Route::get('/order/detail/{order}', [OrderController::class, 'show'])->name('order.show');
-    // Route::get('/order/update-status/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/detail/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/order/update-status/{order}', [OrderController::class, 'update'])->name('order.update');
 
     Route::resource('category', CategoryController::class);
     Route::resource('product', ProductController::class);
     Route::resource('tag_product', TagProductController::class);
     Route::resource('post', PostController::class);
+    Route::resource('tag_post', TagPostController::class);
     Route::resource('category_post', CategoryPostController::class);
     Route::get('product-delete-image/{image}',[ProductController::class,'destroyImage'])->name('product.destroyImage');
 });

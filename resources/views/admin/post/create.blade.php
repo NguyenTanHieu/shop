@@ -1,5 +1,5 @@
 @extends('master.admin')
-@section('title', 'Create a new product')
+@section('title', 'Create a new post')
 @section('main')
 
 
@@ -28,14 +28,21 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="" >product category</label><br>
+                    <label for="" >post category</label><br>
                     @foreach ($cats as $item_tags)
                         <input type="checkbox" name="cats[]" value="{{$item_tags->id}}" >
                         {{$item_tags->name}}
                         <br>
                     @endforeach
                 </div>
-
+                <div class="form-group">
+                    <label for="" >Post tag</label><br>
+                    @foreach ($tagPosts as $item_tags)
+                        <input type="checkbox" name="tags[]" value="{{$item_tags->id}}" >
+                        {{$item_tags->name}}
+                        <br>
+                    @endforeach
+                </div>
                 <div class="form-group">
                     <label for="">post Status</label>
                     <div class="radio">

@@ -836,7 +836,10 @@ ul.disc.disc li:before,ul.check.disc li:before { content:"•"; font-size:30px; 
 	#getting-started .item span { font-size: 14px; }
 }
 
-
+.favorite-action{
+	position: absolute;
+	top:10%
+}
 
 
 

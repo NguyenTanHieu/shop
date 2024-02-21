@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\TagPost;
 use App\Models\TagProduct;
 use Illuminate\Http\Request;
 
@@ -74,6 +75,14 @@ class HomeController extends Controller
 
         return view('home.tag', compact('tag', 'products', 'tags'));
     }
+    // public function tagPost(TagPost $tag)
+    // {
+
+    //     $tags = TagPost::limit(12)->get(); // Lấy danh sách các tag
+    //     $post = $tagP->products()->paginate(12); // Lấy sản phẩm liên quan đến tag
+
+    //     return view('home.tag', compact('tag', 'products', 'tags'));
+    // }
     public function category_Post(CategoryPost $catp)
     {
         // $products = Product::where('category_id',$cat->id)->get();

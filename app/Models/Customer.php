@@ -25,7 +25,12 @@ class Customer extends Authenticatable
         'address',
         'gender',
     ];
-
+    public function carts(){
+        return $this->hasMany(Cart::class,'customer_id','id');
+    }
+    public function orders(){
+        return $this->hasMany(Order::class,'customer_id','id')->orderBy('id','DESC');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

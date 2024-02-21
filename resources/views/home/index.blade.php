@@ -148,15 +148,15 @@
                     <div class="row owl-carousel shop-slider">
                         @foreach ($products as $pr)
                             <div class="item">
-                                <div class="img-wrap"><a href="#"><img style="width:200px" src="uploads/product/{{ $pr->image }}"
+                                <div class="img-wrap"><a href="#"><img style="width:200px ;height:200px"  src="uploads/product/{{ $pr->image }}"
                                             alt=""></a></div>
                                 <a href="{{ route('home.product',['product'=>$pr->id,'slug'=>$pr->slug] )}}" class="name">{{ $pr->name }}</a>
                                 <div class="text">{{ $pr->description }}</div>
                                 <div class="price" >
                                     @if(!isset($pr->sale_price))
-                                 <p>{{ number_format($pr->price) }}đ</p>
+                                    <p>{{ number_format($pr->price) }}đ</p>
                                     @else
-                                    <s>{{ number_format($pr->price) }}đ</s> - <p>{{ number_format($pr->sale_price) }}đ</p>
+                                    <del>{{ number_format($pr->price) }}đ</del> - <ins style="text-decoration:inherit">{{ number_format($pr->sale_price) }}đ</ins>
                                     @endif
                     
                                    @if (auth('cus')->check())
@@ -169,10 +169,16 @@
                                         <a title="Yêu thích" href="{{ route('home.favorite', $pr->id) }}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     @endif
                                 </div>
+                                <a href="{{ route('cart.add', $pr->id) }}" class="btn btn-default"><i class="fa fa-shopping-cart"
+                                    aria-hidden="true"></i>add to cart</a>
+
+                                @else
+                                <a href="{{ route('account.login') }}" onclick="alert('vui lòng đăng nhập')" class="btn btn-default"><i class="fa fa-shopping-cart"
+                                    aria-hidden="true"></i>add to cart</a>
+
                                    @endif
                                  </div>
-                                <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"
-                                        aria-hidden="true"></i>add to cart</a>
+                                
                             </div>
                         @endforeach
                     </div>
@@ -684,19 +690,20 @@
                @foreach ($posts as $post)
                <div class="col-md-3">
                 <div class="main-blog-item">
-                    <div class="img-wrap"><a href="#"><img class="img-responsive" src="uploads/post/{{ $post->image }}"
-                                alt=""></a></div>
+                    <div class="img-wrap"><a href="{{ route('home.post',$post->post_id) }}"><img class="img-responsive" src="uploads/post/{{ $post->image }}"
+                                alt="" ></a></div>
                     <div class="info">
-                        <a href="#" class="name">{{ $post->name }}</a>
+                        <a href="{{ route('home.post',$post->post_id) }}" class="name">{{ $post->name }}</a>
                         <p class="text">{{ $post->description }} </p>
                     </div>
                     <div class="item-info">
                         <div class="left">
-                            <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
+                            <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>{{($post->created_at)->format('d/m/Y') }}</div>
                         </div>
                         <div class="right">
                             <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                            <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
+                    
+                            <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>{{ $post->comments->count() }}</div>
                         </div>
                     </div>
                 </div>

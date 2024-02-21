@@ -71,6 +71,7 @@
                             <li> <a href="{{ route('account.change_password') }}" style="color:black">Change
                                     password</a></li>
                            <li><a href="{{ route('account.favorite') }} "style="color:black">favorite</a></li>
+                           <li><a href="{{ route('order.history') }}" style="color:black">My Order</a></li>
                             {{-- <li><a href="{{ route('account.register') }}" style="color:black">My order</a></li> --}}
                             <li><a href="{{ route('account.logout') }}" style="color:black">Logout</a></li>
                         @else
@@ -140,10 +141,10 @@
                             </div>
                             <div class="col-lg-3 col-md-12">
                                 <div class="top-right">
-                                    <a href="cart.html" class="cart">
+                                    <a href="{{ route('cart.index') }}" class="cart">
                                         <span class="name">Cart</span>
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        <span class="count">0</span>
+                                        <span class="count">{{ $carts->sum('quantity') }}</span>
                                     </a>
                                     <div class="top-search">
 

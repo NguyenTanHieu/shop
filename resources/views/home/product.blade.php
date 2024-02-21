@@ -56,6 +56,7 @@
                            
                     </div>
                 </div>
+            </div>
                 <div class="col-md-12">
                     <div class="woocommerce-tabs wc-tabs-wrapper">
                         <ul class="tabs wc-tabs">
@@ -78,7 +79,7 @@
                        @foreach ($products as $pro)
                        <div class="col-md-3">
                         <div class="product-item">
-                            <div class="img-wrap"><a href="#"><img  src="uploads/product/{{ $pro->image }}" alt="" style="width:200px"></a>
+                            <div class="img-wrap"><a href="#"><img style="width:200px;height:200px" src="uploads/product/{{ $pro->image }}" alt="" style="width:200px"></a>
                             </div>
                             <a href="#" class="name">{{ $pro->name }}</a>
                             <div class="text">{{ $pro->description }}</div>
@@ -86,7 +87,7 @@
                                 @if(!isset($pro->sale_price))
                                 <p>{{ number_format($pro->price) }}</p>
                                 @else
-                                <s>{{ number_format($pro->price) }}</s>- <p>{{ number_format($pro->sale_price) }}</p>
+                                <del>{{ number_format($pro->price) }}</del>- <ins style="text-decoration:inherit">{{ number_format($pro->sale_price) }}</ins>
                                 @endif
                               </div>
                             <a href="#" class="btn btn-default"><i class="fa fa-shopping-cart"

@@ -35,6 +35,15 @@
            </select>
         </div>
         <div class="form-group">
+            <label for="" >post tag</label><br>
+            @foreach ($tagPosts as $item_tags)
+                        <input type="checkbox" name="tags[]" value="{{$item_tags->id}}" {{ $post->tags->contains($item_tags->id) ? 'checked' : '' }}>
+                        {{$item_tags->name}}
+                        <br>
+                    @endforeach
+           </select>
+        </div>
+        <div class="form-group">
             <label for="" >Post Status</label>
            <div class="radio">
             <label for="">

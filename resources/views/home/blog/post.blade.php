@@ -30,14 +30,13 @@
                             <div class="img-wrap"><img class="img-responsive" src="uploads/post/{{ $post->image }}"
                                     alt=""></div>
                             <div class="item-info">
-                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>January 2, 2017</div>
+                                <div class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>{{($post->created_at)->format('d/m/Y') }}</div>
                                 <div class="like"><i class="fa fa-heart" aria-hidden="true"></i>12</div>
-                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>3</div>
+                                <div class="comm"><i class="fa fa-commenting" aria-hidden="true"></i>{{ $post->comments->count() }}</div>
                             </div>
                             <p>{{ $post->description }}</p>
                             <div class="tags-short">
-                                <strong>Tags:</strong> <a href="#">#gym</a>, <a href="#">#fitness</a>, <a
-                                    href="#">#nutrition</a>, <a href="#">#protein</a>
+                                <strong>Tags:</strong> <a href="#">#gym</a></a>
                             </div>
                             <div class="social-small">
                                 <strong>Share:</strong>

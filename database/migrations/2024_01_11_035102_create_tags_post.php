@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('tags_post', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('post_id');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
 
-            $table->foreign('post_id')->references('post_id')->on('posts')->onDelete('cascade');
         });
     }
 

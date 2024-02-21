@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\CategoryPost;
 use App\Models\Comment;
+use App\Models\TagPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -15,14 +16,15 @@ class PostController extends Controller
     public function index()
     {
         $data=Post::orderBy('post_id','DESC')->paginate(20);
-         
+        //  dd($data);
         return view('admin.post.index', compact('data'));
     }
 
     public function create()
     {
         $cats = CategoryPost::orderBy('created_at', 'DESC')->get();
-        return view('admin.post.create', compact('cats'));
+        $tagPosts = TagPost::orderBy('name', 'ASC')->select('id', 'name')->get();
+        return view('admin.post.create', compact('cats','tagPosts'));
     }
 
     public function store(Request $request)
@@ -40,6 +42,7 @@ class PostController extends Controller
         $request->img->move(public_path('uploads/post'), $imag_name);
         $data['image'] =  $imag_name;
         if($post=Post::create($data)){
+            $post->tags()->attach($request->tags);
             $post->cats()->attach($request->cats);
             return redirect()->route('post.index')->with('ok','Create new Product successfully');
         }
@@ -50,7 +53,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $cats = CategoryPost::orderBy('created_at', 'DESC')->get();
-        return view('admin.post.edit', compact('post', 'cats'));
+        $tagPosts = TagPost::orderBy('name', 'ASC')->select('id', 'name')->get();
+        return view('admin.post.edit', compact('post', 'cats','tagPosts'));
     }
 
     public function update(Request $request, Post $post)
@@ -62,7 +66,6 @@ class PostController extends Controller
         ]);
     
         $data = $request->only('name', 'slug', 'image', 'status', 'description');
-    
         if ($request->has('img')) {
             $img_name = $post->image;
             $image_path = public_path('uploads/post') . '/' . $img_name;
@@ -77,6 +80,8 @@ class PostController extends Controller
         }
     
         if ($post->update($data)) {
+            $post->tags()->detach();
+            $post->tags()->attach($request->tags);
             $post->cats()->detach();
             $post->cats()->attach($request->cats);
     
@@ -94,8 +99,5 @@ return redirect()->back()->with('no','Something error, please try again');
 
         return redirect()->route('post.index');
     }
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+
 }

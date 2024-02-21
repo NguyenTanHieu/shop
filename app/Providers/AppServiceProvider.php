@@ -29,10 +29,9 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function($view){
             $cats_home=Category::orderBy('name', 'ASC')->where('status',1)->get();
             $tags = TagProduct::limit(12)->get();
-            // $carts=Cart::where('customer_id', auth('cus')->id())->get();
-           
+            $carts=Cart::where('customer_id', auth('cus')->id())->get();
             $cats_home_post=CategoryPost::orderBy('name', 'ASC')->where('status',1)->get();
-            $view->with(compact('cats_home','tags','cats_home_post'));
+            $view->with(compact('cats_home','tags','cats_home_post','carts'));
         });
     }
 }

@@ -40,7 +40,8 @@
                         @php
                             $tags = isset($model->tags) ? $model->tags : [];
                         @endphp
-                        @foreach ($tags as $tag)
+                        {{-- @dd($model->tags) --}}
+                        @foreach ( $model->tags as $tag)
                             {{ $tag->name }}
                             <br>
                         @endforeach

@@ -155,6 +155,18 @@
                                             new</a></li>
                                 </ul>
                             </li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-th"></i> <span>Tag Post</span> <i
+                                        class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{{ route('tag_post.index') }}"><i
+                                                class="fa fa-circle-o"></i>List</a></li>
+                                    <li><a href="{{ route('tag_post.create') }}"><i class="fa fa-circle-o"></i>Add
+                                            new</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -163,10 +175,13 @@
                                 class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            {{-- <li><a href="{{ route('order.index') }}"><i class="fa fa-circle-o"></i>List</a></li>
-          <li><a href="{{ route('order.index') }}?status=0"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
-          <li><a href="{{ route('order.index') }}?status=2"><i class="fa fa-circle-o"></i>Đã giao hàng</a></li>
-          <li><a href="{{ route('order.index') }}?status=3"><i class="fa fa-circle-o"></i>Đã Hủy</a></li> --}}
+                            <li><a href="{{ route('order.index') }}"><i class="fa fa-circle-o"></i>List</a></li>
+                            <li><a href="{{ route('order.index') }}?status=0"><i class="fa fa-circle-o"></i>Chờ xác
+                                    nhận</a></li>
+                            <li><a href="{{ route('order.index') }}?status=2"><i class="fa fa-circle-o"></i>Đã giao
+                                    hàng</a></li>
+                            <li><a href="{{ route('order.index') }}?status=3"><i class="fa fa-circle-o"></i>Đã
+                                    Hủy</a></li>
                         </ul>
                     </li>
                 </ul>
